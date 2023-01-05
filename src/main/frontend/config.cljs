@@ -9,7 +9,7 @@
             [logseq.graph-parser.util :as gp-util]
             [shadow.resource :as rc]))
 
-(goog-define DEV-RELEASE false)
+(goog-define DEV-RELEASE true)
 (defonce dev-release? DEV-RELEASE)
 (defonce dev? ^boolean (or dev-release? goog.DEBUG))
 
