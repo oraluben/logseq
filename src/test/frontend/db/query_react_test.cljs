@@ -129,3 +129,23 @@ created-at:: %s"
                                         [(>= ?timestamp ?start)]
                                         [(<= ?timestamp ?end)]]})))
         ":Xd-before-ms and :Xd-after-ms resolve to correct datetime range")))
+
+(deftest cache-input-for-page-inputs
+  (letfn [(query-content-in-page [current-page] (with-redefs [state/get-current-page (constantly current-page)]
+                                                  (map :block/content
+                                                       (custom-query {:inputs [:current-page]
+                                                                      :query '[:find (pull ?b [*])
+                                                                               :in $ ?current-page
+                                                                               :where
+                                                                               [?p :page/name ?current-page]
+                                                                               [?b :block/ref-pages ?p]
+                                                                               [?b :block/page ?bp]
+                                                                               [?bp :page/name ?bp-name]]}))))]
+    (load-test-files [{:file/path "pages/content.md"
+                       :file/content
+                       "- 1 #item1
+- 2 #item2"}])
+
+    (let [i1 (query-content-in-page "item1") i2 (query-content-in-page "item2")]
+      (is (not= i1 i2)
+          (gstring/format ":current-page input is not corrected cached, %s, %s" i1 i2)))))
