@@ -11,8 +11,7 @@
             [frontend.state :as state]
             [frontend.util :as util :refer [react]]
             [cljs.spec.alpha :as s]
-            [clojure.core.async :as async]
-            [frontend.debug :as debug]))
+            [clojure.core.async :as async]))
 
 ;;; keywords specs for reactive query, used by `react/q` calls
 ;; ::block

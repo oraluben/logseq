@@ -105,7 +105,6 @@
           inputs (cond-> resolved-inputs
                          rules
                          (conj rules))
-          ;; k [:custom (or (:query-string query') query')]
           k [:custom (assoc (or (:query-string query') query') :inputs inputs)]]
       (pprint "inputs (post-resolution):" resolved-inputs)
       (pprint "query-opts:" query-opts)
