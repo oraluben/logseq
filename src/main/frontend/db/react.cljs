@@ -11,7 +11,8 @@
             [frontend.state :as state]
             [frontend.util :as util :refer [react]]
             [cljs.spec.alpha :as s]
-            [clojure.core.async :as async]))
+            [clojure.core.async :as async]
+            [frontend.debug :as debug]))
 
 ;;; keywords specs for reactive query, used by `react/q` calls
 ;; ::block
@@ -153,7 +154,7 @@
 
 (defn q
   [repo k {:keys [use-cache? transform-fn query-fn inputs-fn disable-reactive?]
-           :or {use-cache? false
+           :or {use-cache? true
                 transform-fn identity}} query & inputs]
   {:pre [(s/valid? ::react-query-keys k)]}
   (let [kv? (and (vector? k) (= :kv (first k)))
